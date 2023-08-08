@@ -20,11 +20,13 @@ void setup() {
   nh_.advertise(kbot_lv_pub_);
   nh_.subscribe(kbot_pid_sub_);
   nh_.subscribe(cmd_vel_sub_);
+  nh_.subscribe(reset_sub_);
   initPublishData();
 }
 
 void loop() {
   time_now = nh_.now();
+  mpu.update();
   t = millis();
   if(millis() - tTime[0] > 10 ){
     updatePIDData();
@@ -56,4 +58,17 @@ void loop() {
     tTime[1] = t;
   }
   nh_.spinOnce();
+}
+
+void resetCallback(const std_msgs::Empty& reset_msg){ 
+  char log_msg[50];
+  (void)(reset_msg);
+
+  sprintf(log_msg, "Start Calibration of Gyro");
+  nh_.loginfo(log_msg);
+
+  mpu.calcOffsets();
+
+  sprintf(log_msg, "Calibration End");
+  nh_.loginfo(log_msg);
 }

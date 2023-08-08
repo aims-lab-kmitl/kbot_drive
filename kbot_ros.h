@@ -6,6 +6,7 @@
 #include <geometry_msgs/Twist.h>
 #include <kbot_msgs/pid.h>
 #include <kbot_msgs/lowlevel.h>
+#include <std_msgs/Empty.h>
 
 #include "kbot_motor.h"
 
@@ -81,8 +82,11 @@ void updatePIDDataROS(){
   kbot_lv_.pid_motor_right[KD] = kbot_serial_pid.readFlashData(10);
 }
 
+void resetCallback(const std_msgs::Empty& reset_msg);
+
 ros::Publisher kbot_lv_pub_("/kbot/micro/data", &kbot_lv_);
 ros::Subscriber<kbot_msgs::pid> kbot_pid_sub_("/kbot/micro/pid_tuning", &PIDDataCallBack);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub_("/cmd_vel", &commandVelocityCallback);
+ros::Subscriber<std_msgs::Empty> reset_sub_("/kbot/reset", &resetCallback);
 
 #endif
