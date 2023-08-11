@@ -47,6 +47,10 @@ $ mkdir -p ~/Arduino/libraries
 $ cd ~/Arduino/libraries
 $ rosrun rosserial_arduino make_libraries.py .
 ```
+3. Adding custom message(Optional:[kbot_msgs](https://github.com/aims-lab-kmitl/kbot_msgs.git))
+```
+$ rosrun rosserial_client make_library.py ~/Arduino/libraries kbot_msgs
+```
 
 ## Compile Arduino-CLI
 For ESP32
