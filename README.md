@@ -38,8 +38,10 @@ SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", GROUP="use
 ## Install rosserial
 1. Arduino IDE Setup (credit: [rosserial_arduino](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup))
 ```sh
-$ sudo apt install ros-noetic-rosserial-arduino
-$ sudo apt install ros-noetic-rosserial
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/aims-lab-kmitl/rosserial.git
+$ cd ~/catkin_ws
+$ catkin_make
 ```
 2. Install library
 ```sh
