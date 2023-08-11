@@ -51,14 +51,19 @@ $ rosrun rosserial_arduino make_libraries.py .
 ```
 $ rosrun rosserial_client make_library.py ~/Arduino/libraries kbot_msgs
 ```
+## Download kbot_drive.ino
+```
+$ cd ~/.
+$ git clone https://github.com/aims-lab-kmitl/kbot_drive.git
+```
 
 ## Compile Arduino-CLI
-For ESP32
 ```
+$ cd ~/kbot_drive
 $ arduino-cli compile -b esp32:esp32:esp32 .
 ```
 ## Uploda Arduino-CLI
-For ESP32
 ```
+$ cd ~/kbot_drive
 $ arduino-cli upload -p /dev/ttyUSB0 -b esp32:esp32:esp32 .
 ```
