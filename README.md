@@ -1,33 +1,60 @@
 # KBOT Drive
-## Install Arduino IDE
-1. Download [Arduino IDE](https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz)
+## Install Arduino CLI
+1. Download and install arduino-cli
 ```sh
-$ cd ~/Download
-$ tar xvf arduino-1.8.19-linux64.tar.xz
-$ cd arduino-1.8.19-linux64
-$ sudo ./install.sh
+$ cd ~/.
+$ curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 ```
-2. Add Preferences in Arduino IDE https://dl.espressif.com/dl/package_esp32_index.json
-3. Setup Python and Serial
+2. Adding Arduino CLI path
+```
+$ nano ~/.bashrc
+export PATH=$PATH:/home/kbot/bin
+
+$ sudo reboot now
+```
+3. Create a configuration file and install ESP32 board
+```
+$ cd ~/.
+$ arduino-cli config init
+$ nano ~/.arduino15/arduino-cli.yaml
+board_manager:
+  additional_urls:
+    - https://dl.espressif.com/dl/package_esp32_index.json
+
+$ arduino-cli core update-index
+$ arduino-cli core install esp32:esp32@1.0.6
+```
+4. Setup Python and Serial
 ```sh
 $ sudo apt install python-is-python3
 $ sudo apt install python3-serial
 ```
-4. Setup USB permission
+5. Setup USB permission
 ```sh
 $ sudo nano /etc/udev/rules.d/50-myusb.rules
-
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", GROUP="users", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", GROUP="users", MODE="0777"
 ```
 
 ## Install rosserial
 1. Arduino IDE Setup (credit: [rosserial_arduino](http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup))
 ```sh
-$ sudo apt-get install ros-noetic-rosserial-arduino
-$ sudo apt-get install ros-noetic-rosserial
+$ sudo apt install ros-noetic-rosserial-arduino
+$ sudo apt install ros-noetic-rosserial
 ```
 2. Install library
 ```sh
-$ cd Arduino/libraries
+$ mkdir -p ~/Arduino/libraries
+$ cd ~/Arduino/libraries
 $ rosrun rosserial_arduino make_libraries.py .
+```
+
+## Compile Arduino-CLI
+For ESP32
+```
+$ arduino-cli compile -b esp32:esp32:esp32 .
+```
+## Uploda Arduino-CLI
+For ESP32
+```
+$ arduino-cli upload -p /dev/ttyUSB0 -b esp32:esp32:esp32 .
 ```
