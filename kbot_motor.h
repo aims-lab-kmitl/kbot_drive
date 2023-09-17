@@ -16,14 +16,14 @@ Motor_Data_Typedef motor_data_right;
 PID_Data_Typedef pid_data_left;
 PID_Data_Typedef pid_data_right;
 
-void initPinOutMotor(){
+void initPinOutMotor() {
   motor_data_left.encoder = encoder_left;
   motor_data_left.encoder_a = ENCODER_LA_PIN;
   motor_data_left.encoder_b = ENCODER_LB_PIN;
   motor_data_left.pwm_channel = PWM_CHANNEL_LEFT;
   motor_data_left.pwm_pin = PWM_LEFT_PIN;
   motor_data_left.dir_pin = DIR_LEFT_PIN;
-  
+
   motor_data_right.encoder = encoder_right;
   motor_data_right.encoder_a = ENCODER_RA_PIN;
   motor_data_right.encoder_b = ENCODER_RB_PIN;
@@ -32,9 +32,9 @@ void initPinOutMotor(){
   motor_data_right.dir_pin = DIR_RIGHT_PIN;
 }
 
-void initMotorDevice(){
-  initMotorDriver(&motor_data_left,FREQUENCY);
-  initMotorDriver(&motor_data_right,FREQUENCY);
+void initMotorDevice() {
+  initMotorDriver(&motor_data_left, FREQUENCY);
+  initMotorDriver(&motor_data_right, FREQUENCY);
 
   initEncoder(&motor_data_left);
   initEncoder(&motor_data_right);
@@ -43,12 +43,12 @@ void initMotorDevice(){
   resetPIDData(&pid_data_right);
 }
 
-void initMotorParameter(){
-  kbot_serial_pid.initPIDParameter(&pid_data_left,0);
-  kbot_serial_pid.initPIDParameter(&pid_data_right,6);
+void initMotorParameter() {
+  kbot_serial_pid.initPIDParameter(&pid_data_left, 0);
+  kbot_serial_pid.initPIDParameter(&pid_data_right, 6);
 }
 
-void updatePIDData(){
+void updatePIDData() {
   pid_data_left.kp  = kbot_serial_pid.readFlashData(0);
   pid_data_left.ki  = kbot_serial_pid.readFlashData(2);
   pid_data_left.kd  = kbot_serial_pid.readFlashData(4);

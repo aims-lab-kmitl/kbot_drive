@@ -9,7 +9,7 @@ const int pulse_per_round = 360;
 const int gear_ratio = 75;
 const int encoder_mode = 4;
 
-typedef struct{
+typedef struct {
   ESP32Encoder encoder;
   uint8_t encoder_a;
   uint8_t encoder_b;
@@ -21,10 +21,10 @@ typedef struct{
   volatile int32_t pv_pose;
   volatile float sp_speed;
   volatile float pv_speed;
-}Motor_Data_Typedef;
+} Motor_Data_Typedef;
 
 
-void initMotorDriver(Motor_Data_Typedef *_motor_data,uint16_t _frequency);
+void initMotorDriver(Motor_Data_Typedef *_motor_data, uint16_t _frequency);
 void initEncoder(Motor_Data_Typedef *_motor_data);
 void calculateMotorData(Motor_Data_Typedef *_motor_data, float _dt);
 void motorSetSpeed(Motor_Data_Typedef *_motor_data, int16_t _speed);
