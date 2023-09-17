@@ -28,13 +28,13 @@ void loop() {
   time_now = nh_.now();
   mpu.update();
   t = millis();
-  if(millis() - tTime[0] > 10 ){
+  if (millis() - tTime[0] > 10 ) {
     updatePIDData();
     updatePIDDataROS();
     motor_data_left.sp_speed  = set_speed_motor_[LEFT];
     motor_data_right.sp_speed = set_speed_motor_[RIGHT];
-    
-    if((time_now - last_time_cmd_).toSec() > 1.0){
+
+    if ((time_now - last_time_cmd_).toSec() > 1.0) {
       motor_data_left.sp_speed = 0.0;
       motor_data_right.sp_speed = 0.0;
     }
@@ -50,9 +50,10 @@ void loop() {
     tTime[0] = t;
   }
 
-  if(millis() - tTime[1] > 30){
+  if (millis() - tTime[1] > 30) {
+    if (mpu.update())
+      kbot_lv_.theta = mpu.getYaw();
     kbot_lv_.header.stamp = nh_.now();
-    kbot_lv_.theta = mpu.getAngleZ();
     kbot_lv_pub_.publish(&kbot_lv_);
 
     tTime[1] = t;
@@ -60,14 +61,21 @@ void loop() {
   nh_.spinOnce();
 }
 
-void resetCallback(const std_msgs::Empty& reset_msg){ 
+void resetCallback(const std_msgs::Empty& reset_msg) {
   char log_msg[50];
   (void)(reset_msg);
 
   sprintf(log_msg, "Start Calibration of Gyro");
   nh_.loginfo(log_msg);
 
-  mpu.calcOffsets();
+  mpu.verbose(true);
+  delay(5000);
+  mpu.calibrateAccelGyro();
+
+  delay(5000);
+  mpu.calibrateMag();
+
+  mpu.verbose(false);
 
   sprintf(log_msg, "Calibration End");
   nh_.loginfo(log_msg);
